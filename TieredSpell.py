@@ -10,7 +10,7 @@ class TieredSpell:
         wad_path (str | None): The WAD file path associated with the spell.
         spell_id (int | None): The unique identifier for the spell. Must be non-negative.
         spell_tier (int | None): The tier of the spell. Must be between 1 and 5.
-        spell_path (str | None): The path variant of the spell. Must be 'Base', 'A', 'B', or 'C'.
+        spell_path (str | None): The path variant of the spell. Must be 'Base', 'A', 'B', 'C', or 'D'.
 
     Note:
         A class-level counter tracks the total number of instances created. Use get_count() to retrieve it.
@@ -33,7 +33,7 @@ class TieredSpell:
             wad_path (str | None): The WAD file path associated with the spell.
             spell_id (int | None): The unique identifier for the spell. Must be non-negative.
             spell_tier (int | None): The tier of the spell. Must be between 1 and 5.
-            spell_path (str | None): The path variant of the spell. Must be 'Base', 'A', 'B', or 'C'.
+            spell_path (str | None): The path variant of the spell. Must be 'Base', 'A', 'B', 'C', or 'D'.
         """
 
         self.object_name: Optional[str] = object_name
@@ -121,14 +121,14 @@ class TieredSpell:
         Set the spell path.
 
         Args:
-            value (str | None): The spell's path variant. Must be 'Base', 'A', 'B', or 'C'.
+            value (str | None): The spell's path variant. Must be 'Base', 'A', 'B', 'C', or 'D'.
 
         Raises:
-            ValueError: If value is not one of 'Base', 'A', 'B', or 'C'.
+            ValueError: If value is not one of 'Base', 'A', 'B', 'C', or 'D'.
         """
 
-        if value is not None and value not in ('Base', 'A', 'B', 'C'):
-            raise ValueError(f"SpellPath must be one of 'Base', 'A', 'B', or 'C', got '{value}'.")
+        if value is not None and value not in ('Base', 'A', 'B', 'C', 'D'):
+            raise ValueError(f"SpellPath must be one of 'Base', 'A', 'B', 'C', or 'D', got '{value}'.")
 
         self._spell_path: Optional[str] = value
 

@@ -50,7 +50,11 @@ Represents a single tiered variant of a spell.
 | `wad_path` | `str \| None` | WAD file path |
 | `spell_id` | `int \| None` | Unique spell ID (non-negative) |
 | `spell_tier` | `int \| None` | Tier level (1–5) |
-| `spell_path` | `str \| None` | Path variant (`Base`, `A`, `B`, or `C`) |
+| `spell_path` | `str \| None` | Path variant (`Base`, `A`, `B`, `C`, or `D`) |
+
+## Output
+
+Results are exported to a JSON file. Each entry represents a spell with its tiered variant IDs keyed by tier and path (e.g. `1`, `2A`, `3B`).
 
 ## Usage
 
