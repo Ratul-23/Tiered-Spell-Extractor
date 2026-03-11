@@ -3,51 +3,60 @@ from typing import Optional
 
 class TieredSpell:
     """
-    Represents a tiered spell with an optional ID, tier, and path.
+    Represents a single tiered variant of a spell.
 
     Attributes:
         object_name (str | None): The name of the spell object.
+        description (str | None): The description of the spell.
         wad_path (str | None): The WAD file path associated with the spell.
-        spell_id (int | None): The unique identifier for the spell. Must be non-negative.
-        spell_tier (int | None): The tier of the spell. Must be between 1 and 5.
-        spell_path (str | None): The path variant of the spell. Must be 'Base', 'A', 'B', 'C', or 'D'.
+        id (int | None): The unique identifier for the spell. Must be non-negative.
+        tier (int | None): The tier of the spell. Must be between 1 and 5.
+        path (str | None): The path variant of the spell. Must be one of the valid paths.
 
     Note:
         A class-level counter tracks the total number of instances created. Use get_count() to retrieve it.
     """
 
-    _count: int = 0
+    # Tracks the total number of TieredSpell instances created.
+    _count_: int = 0
+
+    # Valid path variants accepted by the path property setter.
+    VALID_PATHS: list[str] = ['Base', 'A', 'B', 'C', 'D']
+
 
     def __init__(self,
         object_name: Optional[str] = None,
+        description: Optional[str] = None,
         wad_path: Optional[str] = None,
-        spell_id: Optional[int] = None,
-        spell_tier: Optional[int] = None,
-        spell_path: Optional[str] = None,
-        ) -> None:
+        id: Optional[int] = None,
+        tier: Optional[int] = None,
+        path: Optional[str] = None,
+    ) -> None:
         """
         Initialize a TieredSpell instance.
 
         Args:
             object_name (str | None): The name of the spell object.
+            description (str | None): The description of the spell.
             wad_path (str | None): The WAD file path associated with the spell.
-            spell_id (int | None): The unique identifier for the spell. Must be non-negative.
-            spell_tier (int | None): The tier of the spell. Must be between 1 and 5.
-            spell_path (str | None): The path variant of the spell. Must be 'Base', 'A', 'B', 'C', or 'D'.
+            id (int | None): The unique identifier for the spell. Must be non-negative.
+            tier (int | None): The tier of the spell. Must be between 1 and 5.
+            path (str | None): The path variant of the spell. Must be one of the valid paths.
         """
 
         self.object_name: Optional[str] = object_name
+        self.description: Optional[str] = description
         self.wad_path: Optional[str] = wad_path
 
-        self.spell_id = spell_id
-        self.spell_tier = spell_tier
-        self.spell_path = spell_path
+        self.id = id
+        self.tier = tier
+        self.path = path
 
-        TieredSpell._count += 1
+        TieredSpell._count_ += 12
 
 
     @property
-    def spell_id(self) -> Optional[int]:
+    def id(self) -> Optional[int]:
         """
         Get the spell ID.
 
@@ -55,10 +64,10 @@ class TieredSpell:
             int | None: The spell's unique identifier.
         """
 
-        return self._spell_id
+        return self._id
 
-    @spell_id.setter
-    def spell_id(self, value: Optional[int]) -> None:
+    @id.setter
+    def id(self, value: Optional[int]) -> None:
         """
         Set the spell ID.
 
@@ -70,13 +79,13 @@ class TieredSpell:
         """
 
         if value is not None and value < 0:
-            raise ValueError(f"SpellID must be a non-negative integer, got {value}.")
+            raise ValueError(f'SpellID must be a non-negative integer, got {value}.')
 
-        self._spell_id: Optional[int] = value
+        self._id: Optional[int] = value
 
 
     @property
-    def spell_tier(self) -> Optional[int]:
+    def tier(self) -> Optional[int]:
         """
         Get the spell tier.
 
@@ -84,10 +93,10 @@ class TieredSpell:
             int | None: The spell's tier level.
         """
 
-        return self._spell_tier
+        return self._tier
 
-    @spell_tier.setter
-    def spell_tier(self, value: Optional[int]) -> None:
+    @tier.setter
+    def tier(self, value: Optional[int]) -> None:
         """
         Set the spell tier.
 
@@ -99,13 +108,13 @@ class TieredSpell:
         """
 
         if value is not None and not (1 <= value <= 5):
-            raise ValueError(f"SpellTier must be an integer between 1 and 5, got {value}.")
+            raise ValueError(f'SpellTier must be an integer between 1 and 5, got {value}.')
 
-        self._spell_tier: Optional[int] = value
+        self._tier: Optional[int] = value
 
 
     @property
-    def spell_path(self) -> Optional[str]:
+    def path(self) -> Optional[str]:
         """
         Get the spell path.
 
@@ -113,24 +122,24 @@ class TieredSpell:
             str | None: The spell's path variant.
         """
 
-        return self._spell_path
+        return self._path
 
-    @spell_path.setter
-    def spell_path(self, value: Optional[str]) -> None:
+    @path.setter
+    def path(self, value: Optional[str]) -> None:
         """
         Set the spell path.
 
         Args:
-            value (str | None): The spell's path variant. Must be 'Base', 'A', 'B', 'C', or 'D'.
+            value (str | None): The spell's path variant. Must be one of the valid paths.
 
         Raises:
-            ValueError: If value is not one of 'Base', 'A', 'B', 'C', or 'D'.
+            ValueError: If value is not a recognised path variant.
         """
 
-        if value is not None and value not in ('Base', 'A', 'B', 'C', 'D'):
-            raise ValueError(f"SpellPath must be one of 'Base', 'A', 'B', 'C', or 'D', got '{value}'.")
+        if value is not None and value not in self.VALID_PATHS:
+            raise ValueError(f'SpellPath must be one of {self.VALID_PATHS}, got {value}.')
 
-        self._spell_path: Optional[str] = value
+        self._path: Optional[str] = value
 
 
     @classmethod
@@ -142,4 +151,4 @@ class TieredSpell:
             int: The total instance count.
         """
 
-        return cls._count
+        return cls._count_
