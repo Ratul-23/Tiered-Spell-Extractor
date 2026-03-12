@@ -1,16 +1,16 @@
 from typing import Optional
 
-
 class TieredSpell:
     """
     Represents a single tiered variant of a spell.
 
     Attributes:
-        object_name (str | None): The name of the spell object.
-        description (str | None): The description of the spell.
-        wad_path (str | None): The WAD file path associated with the spell.
+        object_name (str): The internal object name of the spell.
+        wad_path (str): The WAD file path associated with the spell.
+        desc (str | None): The description of the spell.
+        desc_locale_code (str): The locale code for the spell description.
         id (int | None): The unique identifier for the spell. Must be non-negative.
-        tier (int | None): The tier of the spell. Must be between 1 and 5.
+        tier (int | None): The tier level of the spell. Must be between 1 and 5.
         path (str | None): The path variant of the spell. Must be one of the valid paths.
 
     Note:
@@ -24,35 +24,35 @@ class TieredSpell:
     VALID_PATHS: list[str] = ['Base', 'A', 'B', 'C', 'D']
 
 
-    def __init__(self,
-        object_name: Optional[str] = None,
-        description: Optional[str] = None,
-        wad_path: Optional[str] = None,
-        id: Optional[int] = None,
-        tier: Optional[int] = None,
-        path: Optional[str] = None,
-    ) -> None:
+    def __init__(
+        self,
+        object_name: str,
+        wad_path: str,
+        desc_locale_code: str,
+        spell_id: int
+        ) -> None:
         """
         Initialize a TieredSpell instance.
 
         Args:
-            object_name (str | None): The name of the spell object.
-            description (str | None): The description of the spell.
-            wad_path (str | None): The WAD file path associated with the spell.
-            id (int | None): The unique identifier for the spell. Must be non-negative.
-            tier (int | None): The tier of the spell. Must be between 1 and 5.
-            path (str | None): The path variant of the spell. Must be one of the valid paths.
+            object_name (str): The internal object name of the spell.
+            wad_path (str): The WAD file path associated with the spell.
+            desc_locale_code (str): The locale code for the spell description.
+            spell_id (int): The unique identifier for the spell. Must be non-negative.
         """
 
-        self.object_name: Optional[str] = object_name
-        self.description: Optional[str] = description
-        self.wad_path: Optional[str] = wad_path
+        self.object_name: str = object_name
+        self.wad_path: str = wad_path
 
-        self.id = id
-        self.tier = tier
-        self.path = path
+        self.desc: Optional[str] = None
 
-        TieredSpell._count_ += 12
+        self.desc_locale_code: str = desc_locale_code
+        self.id = spell_id
+
+        self.tier = None
+        self.path = None
+
+        TieredSpell._count_ += 1
 
 
     @property

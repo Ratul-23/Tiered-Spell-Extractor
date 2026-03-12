@@ -8,10 +8,10 @@ class Spell:
     Represents a spell containing a group of tiered variants.
 
     Attributes:
-        display_name (str | None): The display name of the spell.
-        school (str | None): The school of the spell.
-        tiered_spell_group (int | None): The group index this spell belongs to. Must be non-negative.
-        lang_code (str | None): The internal code identifier for the spell.
+        display_name (str | None): The resolved display name of the spell.
+        school (str): The magic school the spell belongs to. Must be one of the valid schools.
+        tiered_spell_group (int): The group index this spell belongs to. Must be non-negative.
+        name_locale_code (str | None): The locale code for the spell's display name.
         tiered_spells (list[TieredSpell]): The list of tiered spell variants associated with this spell.
 
     Note:
@@ -28,26 +28,21 @@ class Spell:
     ]
 
 
-    def __init__(self,
-        display_name: Optional[str] = None,
-        school: Optional[str] = None,
-        tiered_spell_group: Optional[int] = None,
-        lang_code: Optional[str] = None,
-    ) -> None:
+    def __init__(self, school: str, tiered_spell_group: int, name_locale_code: str) -> None:
         """
         Initialize a Spell instance.
 
         Args:
-            display_name (str | None): The display name of the spell.
-            school (str | None): The school of the spell.
-            tiered_spell_group (int | None): The group index this spell belongs to. Must be non-negative.
-            lang_code (str | None): The internal code identifier for the spell.
+            school (str): The magic school the spell belongs to. Must be one of the valid schools.
+            tiered_spell_group (int): The group index this spell belongs to. Must be non-negative.
+            name_locale_code (str): The locale code for the spell's display name.
         """
 
-        self.display_name: Optional[str] = display_name
+        self.display_name: Optional[str] = None
+
         self.school = school
         self.tiered_spell_group = tiered_spell_group
-        self.lang_code: Optional[str] = lang_code
+        self.name_locale_code: str = name_locale_code
 
         self.tiered_spells: list[TieredSpell] = []
 
@@ -55,61 +50,61 @@ class Spell:
 
 
     @property
-    def tiered_spell_group(self) -> Optional[int]:
-        """
-        Get the tiered spell group index.
-
-        Returns:
-            int | None: The group index this spell belongs to.
-        """
-
-        return self._tiered_spell_group
-
-    @tiered_spell_group.setter
-    def tiered_spell_group(self, value: Optional[int]) -> None:
-        """
-        Set the tiered spell group index.
-
-        Args:
-            value (int | None): The group index this spell belongs to. Must be non-negative.
-
-        Raises:
-            ValueError: If value is a negative integer.
-        """
-
-        if value is not None and value < 0:
-            raise ValueError(f'TieredSpellGroup must be a non-negative integer, got {value}.')
-
-        self._tiered_spell_group: Optional[int] = value
-
-
-    @property
-    def school(self) -> Optional[str]:
+    def school(self) -> str:
         """
         Get the spell school.
 
         Returns:
-            str | None: The school of the spell.
+            str: The school of the spell.
         """
 
         return self._school
 
     @school.setter
-    def school(self, value: Optional[str]) -> None:
+    def school(self, value: str) -> None:
         """
         Set the spell school.
 
         Args:
-            value (str | None): The school of the spell. Must be one of the valid schools.
+            value (str): The school of the spell. Must be one of the valid schools.
 
         Raises:
             ValueError: If value is not a recognised school.
         """
 
-        if value is not None and value not in self.VALID_SCHOOLS:
+        if value not in self.VALID_SCHOOLS:
             raise ValueError(f'School must be a valid school, got {value}.')
 
-        self._school: Optional[str] = value
+        self._school: str = value
+
+
+    @property
+    def tiered_spell_group(self) -> int:
+        """
+        Get the tiered spell group index.
+
+        Returns:
+            int: The group index this spell belongs to.
+        """
+
+        return self._tiered_spell_group
+
+    @tiered_spell_group.setter
+    def tiered_spell_group(self, value: int) -> None:
+        """
+        Set the tiered spell group index.
+
+        Args:
+            value (int): The group index this spell belongs to. Must be non-negative.
+
+        Raises:
+            ValueError: If value is a negative integer.
+        """
+
+        if value < 0:
+            raise ValueError(f'TieredSpellGroup must be a non-negative integer, got {value}.')
+
+        self._tiered_spell_group: int = value
 
 
     @classmethod

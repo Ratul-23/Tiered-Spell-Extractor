@@ -134,13 +134,13 @@ class Deserializer:
 
     def _parse_lang_files(self, lang_file_path: str) -> dict[str, str]:
         """
-        Parse a UTF-16 lang file from the archive and map each spell code to its display name.
+        Parse a UTF-16 lang file from the archive and map each locale code to its string value.
 
         Args:
             lang_file_path (str): The path to the lang file within the archive.
 
         Returns:
-            dict[str, str]: A mapping of spell code to display name, or an empty dict if the file is not found.
+            dict[str, str]: A mapping of locale code to string value, or an empty dict if the file is not found.
         """
 
         try:
@@ -192,14 +192,14 @@ class Deserializer:
 
             try:
                 object_name: str = data['m_name'].decode('utf-8').strip()
-                description: str = data['m_description'].decode('utf-8').strip()
-                spell_code: str = data['m_displayName'].decode('utf-8').strip()
+                name_locale_code: str = data['m_displayName'].decode('utf-8').strip()
+                desc_locale_code: str = data['m_description'].decode('utf-8').strip()
                 school: str = data['m_sMagicSchoolName'].decode('utf-8').strip()
 
             except KeyError as exception:
                 print(f'Warning: Missing property {exception} in {file}')
                 continue
 
-            spell_data_by_path[file] = SpellData(object_name, description, spell_code, school)
+            spell_data_by_path[file] = SpellData(object_name, name_locale_code, desc_locale_code, school)
 
         return spell_data_by_path
