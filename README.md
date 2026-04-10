@@ -6,11 +6,17 @@ Parses Wizard101 game files directly from the WAD archive to extract and organiz
 
 ## Requirements
 
-- Python 3.10+
+- Python 3.13+
 - Wizard101 installed
 - [wiztype](https://github.com/wizspoil/wiztype) JSON type dump placed as `types.json` in the project root
 
 ### Python Dependencies
+
+```
+uv sync
+```
+
+Or without uv:
 
 ```
 pip install katsuba
@@ -19,11 +25,11 @@ pip install katsuba
 ## Project Structure
 
 ```
-Main.py           # Entry point and pipeline
-Spell.py          # Spell class
-TieredSpell.py    # TieredSpell class
-SpellData.py      # SpellData dataclass
-Deserializer.py   # WAD archive deserializer (singleton)
+main.py           # Entry point and pipeline
+spell.py          # Spell class
+tiered_spell.py   # TieredSpell class
+spell_data.py     # SpellData dataclass
+deserializer.py   # WAD archive deserializer (singleton)
 types.json        # wiztype type dump (not included)
 ```
 
@@ -70,5 +76,5 @@ Results are exported to `Tiered-Spells.json`. Each entry represents a spell with
 ## Usage
 
 ```
-python Main.py
+python main.py
 ```
